@@ -10,6 +10,7 @@ COPY package.json ./
 # Install dependencies
 RUN npm install dotenv
 RUN npm install
+
 # If you are building your code for production
 # RUN npm ci --omit=dev
 
@@ -17,8 +18,8 @@ RUN npm install
 COPY . .
 
 # Expose the specified frontend port
-EXPOSE ${FRONTEND_PORT}
+EXPOSE ${BACKEND_PORT}
 
 # Start the frontend application
-CMD ["node", "frontend.js"]
+CMD ["node", "backend.js"]
 

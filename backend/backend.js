@@ -1,4 +1,7 @@
 const http = require('http');
+const { config } = require('dotenv');
+
+config(); // load the .env
 
 const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/api') {

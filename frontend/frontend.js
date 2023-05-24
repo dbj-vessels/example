@@ -1,53 +1,69 @@
-
 const http = require('http');
+const { config } = require('dotenv');
 
-// Read the backend hostname and port from environment variables
-const backendHostname = process.env.BACKEND_HOSTNAME; // Set the environment variable to the actual backend hostname
-const backendPort = process.env.BACKEND_PORT; // Set the environment variable to the actual backend port
+config(); // load the .env
 
-// Define the API endpoint on the back-end container
-const apiEndpoint = '/api';
+const port = process.env.FRONTEND_PORT;
+const backendHostname = process.env.BACKEND_HOSTNAME;
+const backendPort = process.env.BACKEND_PORT;
 
-// JSON data to send in the request body
-const jsonData = {
-  key1: 'value1',
-  key2: 'value2'
-};
+if (!port || !backendHostname || !backendPort) {
+  console.error('Error: Missing environment variables. Please set PORT and BACKEND_HOSTNAME and BACKEND_PORT.');
+  process.exit(1);
+}
 
-// Convert the JSON data to a string
-const jsonDataString = JSON.stringify(jsonData);
+const server = http.createServer((req, res) => {
+  if (req.url === '/api/sendData' && req.method === 'POST') {
+    let data = '';
 
-// Create an HTTP request options object
-const options = {
-  hostname: backendHostname,
-  port: backendPort,
-  path: apiEndpoint,
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(jsonDataString)
+    req.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    req.on('end', () => {
+      try {
+        const jsonData = JSON.parse(data);
+
+        // Send data to the backend
+        sendDataToBackend(jsonData)
+          .then(() => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ message: 'Data sent to the backend successfully.' }));
+          })
+          .catch((error) => {
+            console.error('Error occurred while sending data to the backend:', error.message);
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: 'An error occurred while sending data to the backend.' }));
+          });
+      } catch (error) {
+        console.error('Error occurred while parsing JSON data:', error.message);
+        res.statusCode = 400;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ error: 'Invalid JSON data.' }));
+      }
+    });
+  } else {
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({ error: 'Not found.' }));
   }
-};
-
-// Send an HTTP request to the back-end container
-const req = http.request(options, (res) => {
-  let data = '';
-
-  res.on('data', (chunk) => {
-    data += chunk;
-  });
-
-  res.on('end', () => {
-    // Process the response from the back-end container
-    console.log('Response from back-end:', data);
-  });
 });
 
-req.on('error', (error) => {
-  console.error('Error connecting to back-end:', error);
+function sendDataToBackend(data) {
+  return new Promise((resolve, reject) => {
+    // You can perform the necessary action to send the data to the backend here
+    // Replace this with your actual implementation
+
+    // Example implementation using console.log
+    console.log('Sending data to the backend:', data);
+
+    // Assuming the data is sent successfully
+    resolve();
+  });
+}
+
+server.listen(port, () => {
+  console.log(`Frontend server is running on port ${port}`);
 });
-
-// Send the JSON data in the request body
-req.write(jsonDataString);
-
-req.end();

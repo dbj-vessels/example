@@ -9,8 +9,6 @@ services:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
       - backend
-    environment:
-      - FRONTEND_PORT=${FRONTEND_PORT}
 
   backend:
     build:
@@ -18,5 +16,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
-    environment:
-      - BACKEND_PORT=${BACKEND_PORT}

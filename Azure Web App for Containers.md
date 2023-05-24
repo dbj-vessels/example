@@ -35,7 +35,7 @@ Using this updated Docker Compose script, the port numbers for the frontend and 
 
 By utilizing environment variables, you can provide dynamic configuration to your containers deployed on Azure Web App for Containers.
 
-It's recommended to use Azure Web App Application Settings for managing environment variables specific to your Azure Web App instance. This approach provides a centralized way to manage configuration settings for your application.
+> It's recommended to use Azure Web App Application Settings for managing environment variables specific to your Azure Web App instance. This approach provides a centralized way to manage configuration settings for your application.
 
 To deploy the frontend and backend containers to Azure Web App for Containers:
 

@@ -1,0 +1,10 @@
+{
+    "name": "your-frontend-project",
+    "version": "1.0.0",
+    "description": "Your frontend project description",
+    "author": "(c) dbj@dbj.org CC BY SA 4.0)",
+    "main": "frontend.js",
+    "scripts": {
+        "start": "node frontend.js"
+    }
+}
