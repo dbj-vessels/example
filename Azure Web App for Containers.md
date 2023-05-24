@@ -1,0 +1,54 @@
+When deploying containers to Azure Web App for Containers, you have a couple of options for configuring environment variables:
+
+1. Use Azure Web App Application Settings: Azure Web App provides a built-in way to configure application settings, including environment variables. You can set the environment variables directly in the Azure portal or through automation scripts. These settings can be accessed by your application code at runtime.
+
+2. Modify your Docker Compose script: Alternatively, you can modify your Docker Compose script to use environment variables defined within the Azure Web App environment. You can access these environment variables directly within your Docker Compose script using the `ENV` syntax.
+
+Here's an example of how you can modify your Docker Compose script to utilize environment variables from Azure Web App:
+
+```yaml
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    environment:
+      - FRONTEND_PORT=${FRONTEND_PORT}
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    environment:
+      - BACKEND_PORT=${BACKEND_PORT}
+
+```
+
+Make sure to set the FRONTEND_PORT and BACKEND_PORT environment variables either through Azure Web App Application Settings or directly in the Azure portal.
+
+Using this updated Docker Compose script, the port numbers for the frontend and backend containers will be dynamically configured based on the environment variables provided.
+
+By utilizing environment variables, you can provide dynamic configuration to your containers deployed on Azure Web App for Containers.
+
+It's recommended to use Azure Web App Application Settings for managing environment variables specific to your Azure Web App instance. This approach provides a centralized way to manage configuration settings for your application.
+
+To deploy the frontend and backend containers to Azure Web App for Containers:
+
+1. Build and push the frontend and backend container images to a container registry, such as Azure Container Registry.
+
+2. Create an Azure Web App for Containers instance.
+
+3. In the Azure portal, navigate to your Web App instance and go to the "Container settings" section.
+
+4. Specify the container image and port for each service. For example, for the frontend container, provide the image URL and set the port to `80`. For the backend container, provide its image URL and set the port to `3000`.
+
+5. Save the configuration, and Azure will deploy and run the frontend and backend containers as separate services within the Web App instance.
+
+By deploying both the frontend and backend containers to Azure Web App for Containers, you can host and run your entire application on Azure without the need for separate infrastructure or management of individual containers.
+
+Please note that Azure Web App for Containers has certain limitations and constraints. Ensure that your application meets the requirements and constraints of Azure Web App for Containers before deploying.
