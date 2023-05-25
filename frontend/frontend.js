@@ -1,5 +1,6 @@
 const http = require('http');
 const { config } = require('dotenv');
+const axios = require('axios');
 
 config(); // load the .env
 
@@ -12,58 +13,41 @@ if (!port || !backendHostname || !backendPort) {
   process.exit(1);
 }
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/api/sendData' && req.method === 'POST') {
-    let data = '';
 
-    req.on('data', (chunk) => {
-      data += chunk;
-    });
+const data = {
+  PTO: 'Australia',
+  currency: 'AUD'
+};
 
-    req.on('end', () => {
-      try {
-        const jsonData = JSON.parse(data);
-
-        // Send data to the backend
-        sendDataToBackend(jsonData)
-          .then(() => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ message: 'Data sent to the backend successfully.' }));
-          })
-          .catch((error) => {
-            console.error('Error occurred while sending data to the backend:', error.message);
-            res.statusCode = 500;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ error: 'An error occurred while sending data to the backend.' }));
-          });
-      } catch (error) {
-        console.error('Error occurred while parsing JSON data:', error.message);
-        res.statusCode = 400;
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ error: 'Invalid JSON data.' }));
-      }
-    });
-  } else {
-    res.statusCode = 404;
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ error: 'Not found.' }));
-  }
-});
-
-function sendDataToBackend(data) {
-  return new Promise((resolve, reject) => {
-    // You can perform the necessary action to send the data to the backend here
-    // Replace this with your actual implementation
-
-    // Example implementation using console.log
-    console.log('Sending data to the backend:', data);
-
-    // Assuming the data is sent successfully
-    resolve();
-  });
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+async function main() {
+  console.log('Sleeping for 3 seconds...');
+  await sleep(3000);
+
+  console.log('Sending to: http://' + backendHostname + ':' + backendPort + '/api/endpoint\n\ndata: ', JSON.stringify(data));
+
+  axios.post(`http://${backendHostname}:${backendPort}/api/endpoint`, data, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => {
+      console.log('Response:', response.data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+
+const server = http.createServer((req, res) => { /* */ });
 
 server.listen(port, () => {
   console.log(`Frontend server is running on port ${port}`);
 });
+
+main();
+

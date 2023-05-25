@@ -9,6 +9,7 @@ COPY package.json ./
 
 # Install dependencies
 RUN npm install dotenv
+RUN npm install axios
 RUN npm install
 # If you are building your code for production
 # RUN npm ci --omit=dev

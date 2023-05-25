@@ -8,4 +8,6 @@ set BACKEND_HOSTNAME=backend
 set FRONTEND_PORT=8282
 set FRONTEND_HOSTNAME=frontend
 
-docker-compose up
+docker-compose down --rmi all
+
+docker-compose up -d
