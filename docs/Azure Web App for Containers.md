@@ -15,8 +15,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
-    environment:
-      - FRONTEND_PORT=${FRONTEND_PORT}
 
   backend:
     build:
@@ -24,9 +22,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
-    environment:
-      - BACKEND_PORT=${BACKEND_PORT}
-
 ```
 
 Make sure to set the FRONTEND_PORT and BACKEND_PORT environment variables either through Azure Web App Application Settings or directly in the Azure portal.
@@ -40,13 +35,9 @@ By utilizing environment variables, you can provide dynamic configuration to you
 To deploy the frontend and backend containers to Azure Web App for Containers:
 
 1. Build and push the frontend and backend container images to a container registry, such as Azure Container Registry.
-
 2. Create an Azure Web App for Containers instance.
-
 3. In the Azure portal, navigate to your Web App instance and go to the "Container settings" section.
-
-4. Specify the container image and port for each service. For example, for the frontend container, provide the image URL and set the port to `80`. For the backend container, provide its image URL and set the port to `3000`.
-
+4. Specify the container image and port for each service. 
 5. Save the configuration, and Azure will deploy and run the frontend and backend containers as separate services within the Web App instance.
 
 By deploying both the frontend and backend containers to Azure Web App for Containers, you can host and run your entire application on Azure without the need for separate infrastructure or management of individual containers.

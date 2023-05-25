@@ -1,34 +1,94 @@
-# Docker Networks
+# Multi container project
 
-Docker allows you to create and manage networks that enable communication between containers, as well as between containers and the host system or other external networks.
+*This project is W.I.P.*
 
-When you create a Docker container, it is attached to a network by default. Docker provides four types of networks:
+> Purpose of this repo is to show the "proper" way of "doing things"
 
-## Bridge Network
-   
-This is the default network created by Docker. Containers attached to the bridge network can communicate with each other using IP addresses. They can also communicate with the host system and other networks through Network Address Translation (NAT). Bridge networks are useful for applications running on a single host.
+For starters organize your multi container projects like this one is:
 
-## Host Network
+```bat
+.
+├───backend
+├───docs
+└───frontend
+```
+- each container in a separate folder
+- keep the `Dockerfile`s in them individual container folders: `backend` and `frontend`
+- `docker-compose.yaml` keep in the root folder
+- create and use the simple script (`decoupled_build.cmd` in this case) to remove and restart building your compose app.
 
-When a container is attached to the host network, it shares the network namespace with the host system. This means that the container uses the host's network interfaces directly, without any isolation. Containers on the host network can access network services running on the host system without any port mapping. This type of network is useful when you want to maximize network performance and have the container directly use the host's network stack.
+```bat
+@echo off
+set BACKEND_PORT=3000
+set BACKEND_HOSTNAME=backend
+set FRONTEND_PORT=8282
+set FRONTEND_HOSTNAME=frontend
+@REM first remove the previous 
+docker-compose down --rmi all
+@REM now build and start 
+@REM -d for daemon is optional
+docker-compose up -d
+```
 
-## Overlay Network
+- Be sure to read and understand https://www.webmound.com/nodejs-environment-variables/.
+- in here I use the `.env` files, you do not have to.
 
-Overlay networks enable communication between containers running on different Docker hosts. They use an overlay network driver to encapsulate and route network traffic between hosts. This allows you to create distributed applications across multiple Docker hosts, forming a swarm cluster. Overlay networks are commonly used in scenarios where containers need to communicate across multiple hosts, such as in a microservices architecture.
+## Configurations
 
-## User-defined network
+Create a JSON file, such as config.json, and define your configuration variables and values:
 
-Provide more control and flexibility over container networking. You can create a user-defined network with custom settings, such as assigning a specific IP range or defining a network driver. User-defined networks are useful when you want to isolate containers or group them based on specific requirements.
+```json
+{
+  "database": {
+    "host": "localhost",
+    "port": 27017,
+    "username": "admin",
+    "password": "password"
+  },
+  "server": {
+    "port": 3000,
+    "secretKey": "mysecretkey"
+  }
+}
+```
+
+Read this JSON file in your Node.js application using the require function:
+
+```json
+const config = require('./config.json');
+
+console.log(config.database.host); // localhost
+console.log(config.server.port); // 3000
+```
+
+That snippet also ilustrates the applicability of the NODE js to the JSON handling.  To do the same from any other language will require mnore or much more lines of code, to the same effect.
 
 
+### Configuration Modules
 
+One can create a configuration module that exports the configuration variables as an object. This allows JavaScript code to handle complex configurations.
 
-&copy; by Dusan Jovanovic MSc Arch, TOGAF(R)  CC BY SA 3.0
+For example, create a config.js file:
 
----
+```js
+const databaseHost = 'localhost';
+const databasePort = 27017;
+const serverPort = process.env.PORT || 3000;
 
-Before printing please consider a lot of various things, although
- just the preservation of the environment might be enough.
-
-
-
+module.exports = {
+  database: {
+    host: databaseHost,
+    port: databasePort
+  },
+  server: {
+    port: serverPort
+  }
+};
+```
+Now import this configuration module in your application:
+```js
+const config = require('./config.js');
+console.log(config.database.host); // localhost
+console.log(config.server.port); // 3000 or the value of PORT environment variable
+```
+Again an good ilustration of applicability of NODE js to manage dynamic code. In JS object and JSON are (almost) the same thing. `config.js` can be easily rewritten as JSON, but this way we did a shortcut to instantly have objects and constants we need.
