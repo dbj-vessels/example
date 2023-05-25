@@ -54,7 +54,7 @@ Create a JSON file, such as config.json, and define your configuration variables
 
 Read this JSON file in your Node.js application using the require function:
 
-```json
+```js
 const config = require('./config.json');
 
 console.log(config.database.host); // localhost
