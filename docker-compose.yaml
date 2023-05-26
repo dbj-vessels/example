@@ -2,6 +2,16 @@
 version: '3'
 name: 'sampleapp'
 services:
+  environprinter:
+    build:
+      context: ./environprinter
+      dockerfile: Dockerfile
+    labels:
+      environment: ENVIRONMENT=${ENVIRONMENT}
+    environment:
+      - API_KEY=${API_KEY}
+    env_file:
+      - .env
   frontend:
     build:
       context: ./frontend
@@ -10,10 +20,13 @@ services:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
       - backend
-
+    env_file:
+      - .env
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
+    env_file:
+      - .env

@@ -8,8 +8,10 @@ const port = process.env.FRONTEND_PORT;
 const backendHostname = process.env.BACKEND_HOSTNAME;
 const backendPort = process.env.BACKEND_PORT;
 
+console.log('========================================================================================');
+
 if (!port || !backendHostname || !backendPort) {
-  console.error('Error: Missing environment variables. Please set PORT and BACKEND_HOSTNAME and BACKEND_PORT.');
+  console.error('Error: Missing environment variables. Please set FRONTEND_PORT and BACKEND_HOSTNAME and BACKEND_PORT.');
   process.exit(1);
 }
 

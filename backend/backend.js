@@ -10,6 +10,9 @@ config(); // load the .env file
 
 const port = process.env.BACKEND_PORT; // Set the port for the backend container
 
+console.log('========================================================================================');
+
+
 if (!process.env.BACKEND_PORT) {
     console.error('Error: BACKEND_PORT environment variable is not defined in the .env file?');
     process.exit(1); // Exit the process with a non-zero status code

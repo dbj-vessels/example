@@ -19,10 +19,6 @@ For starters organize your multi container projects like this one is:
 
 ```bat
 @echo off
-set BACKEND_PORT=3000
-set BACKEND_HOSTNAME=backend
-set FRONTEND_PORT=8282
-set FRONTEND_HOSTNAME=frontend
 @REM first remove the previous 
 docker-compose down --rmi all
 @REM now build and start 
@@ -32,10 +28,11 @@ docker-compose up -d
 
 - Be sure to [read and understand this article](https://towardsdatascience.com/a-complete-guide-to-using-environment-variables-and-files-with-docker-and-compose-4549c21dc6af).
 - in here I use the `.env` files, you do not have to.
+- the single env file is in the root
 
 ## Configurations
 
-Create a JSON file, such as config.json, and define your configuration variables and values:
+Example.Create a JSON file, such as config.json, and define your configuration variables and values:
 
 ```json
 {

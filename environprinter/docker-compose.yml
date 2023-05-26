@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+
+  env_printer:
+    image: "environ_image"
+    labels:
+      environment: ${ENVIRONMENT}
+    environment:
+      - API_KEY=${API_KEY}
+    env_file:
+      - .env
