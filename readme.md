@@ -30,7 +30,7 @@ docker-compose down --rmi all
 docker-compose up -d
 ```
 
-- Be sure to read and understand https://www.webmound.com/nodejs-environment-variables/.
+- Be sure to [read and understand this article](https://towardsdatascience.com/a-complete-guide-to-using-environment-variables-and-files-with-docker-and-compose-4549c21dc6af).
 - in here I use the `.env` files, you do not have to.
 
 ## Configurations
