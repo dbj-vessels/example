@@ -55,8 +55,20 @@ Among key advantages of this service we can indicate:
 - Providing container isolation level similar to security level provided by running applications on different virtual machines,
 - Availability of public IP addresses for containers which can be accessible from Internet using FQDN (Fully Qualified Domain Name),
 - Option to integrate with Azure Kubernetes Service,
-- Option to deploy a group of containers (**ACI Container Groups**) on one host machine using shared storage space, shared network and other resources between containers working together towards one goal
-  - that means VM is required
+- Option to deploy a group of containers ([**ACI Container Groups**](https://learn.microsoft.com/en-us/azure/container-instances/container-instances-container-groups)) on one host machine using shared storage space, shared network and other resources between containers working together towards one goal
+
+  
+
+  ![](media/container-groups-example.png)
+  ACI group example
+
+  That example container group:
+
+- Is scheduled on a single host machine.
+- Is assigned a DNS name label.
+- Exposes a single public IP address, with one exposed port.
+- Consists of two containers. One container listens on port 80, while the other listens on port 5000.
+- Includes two Azure file shares as volume mounts, and each container mounts one of the shares locally.
 
 Some of ACI disadvantages are:
 
@@ -131,7 +143,7 @@ Web Application can be deployed as a container. Deployment across multiple nodes
 > To map a custom domain, see - [Map App Service domain to your app](https://learn.microsoft.com/azure/app-service/manage-custom-dns-buy-domain#map-app-service-domain-to-your-app)
 
 
-## So, which?
+## So, which one?
 
 After analyzing the key features of both presented services, one can get an impression that they have some common parts. However, they were built for different purposes.
 
