@@ -1,6 +1,8 @@
 # Multi container project
 
-> Purpose of this repo is to show the "proper" way of "doing things" for compose app's.
+> Purpose of this repo is to show the "proper" way of "doing things" for Docker compose app's.
+
+## Repository organization
 
 For starters organize your multi container projects with the root folder and subfolders; one for each container. This repository  folder structure is:
 
@@ -24,7 +26,9 @@ docker-compose down --rmi all
 @REM -d for daemon is optional arguments bellow
 docker-compose up
 ```
-- Often the literature mixes OS environment variables and Docker envrionment variables
+## Docker compose apps and containers configuration
+
+- Often the literature mixes OS environment variables and Docker environment variables
   - be sure to understand they are different 'things'
   - in here I avoid the confusion by not using the OS env vars
     - I use only `.env` files
@@ -32,18 +36,18 @@ docker-compose up
       - I do strongly advise against mixing 
       - ditto: only one `.env` file 
       - used only by the one top level `docker-compose.yaml`
-      - env vars passed down from it to the dockerfiles 
+      - env vars passed down from it to the docker files 
     - added complexity (confusion) comes from the fact `.env` files can be read from the source code
     - simply do not do that, keep separate configurations in separate language specific configuration files 
       - see the node js examples bellow
 - Be sure to read and understand the comments in the simple source files in this repo
   - especially the ones about `.env` files
-- purpose of the source in here is to show the recomended organization of the multi container project organization and configurations
+- purpose of the source in here is to show the recommended organization of the multi container project organization and configurations
   - not the "best" algorithms and such
 
 ## Node JS Configurations
 
-> NOTE: this is not environment variables 
+> NOTE: this is not docker or OS environment variables 
 
 Example. Create a JSON file, such as `config.json`, and define your configuration variables and values:
 
@@ -71,9 +75,9 @@ console.log(config.database.host); // localhost
 console.log(config.server.port); // 3000
 ```
 
-That snippet also ilustrates the applicability of the NODE js to the JSON handling.  To do the same from any other language will require (much) more lines of code, to the same effect. Yes Python including. Nothing beats javascript when it comes to json.
+That snippet also illustrates the applicability of the NODE js to the JSON handling.  To do the same from any other language will require (much) more lines of code, to the same effect. Yes Python including. Nothing beats javascript when it comes to json.
 
-### Node js Configuration Modules
+## Node js Configuration Modules
 
 One can create a node js configuration module that exports the configuration variables as an object. This allows JavaScript code to handle complex configurations as if they are objects and constants in the code.
 

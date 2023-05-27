@@ -1,3 +1,5 @@
+
+
 When deploying containers to Azure Web App for Containers, you have a couple of options for configuring environment variables:
 
 1. Use Azure Web App Application Settings: Azure Web App provides a built-in way to configure application settings, including environment variables. You can set the environment variables directly in the Azure portal or through automation scripts. These settings can be accessed by your application code at runtime.
