@@ -1,20 +1,19 @@
 # Multi container project
 
-*This project is W.I.P.*
+> Purpose of this repo is to show the "proper" way of "doing things" for compose app's.
 
-> Purpose of this repo is to show the "proper" way of "doing things"
+For starters organize your multi container projects with the root folder and subfolders; one for each container. This repository  folder structure is:
 
-For starters organize your multi container projects like this one is:
-
-```bat
+```js
 .
-├───backend
-├───docs
-└───frontend
+├───backend             // container
+├───environprinter      // container
+├───docs                // not a container
+└───frontend            // container
 ```
 - each container in a separate folder
-- keep the `Dockerfile`s in them individual container folders: `backend` and `frontend`
-- `docker-compose.yaml` keep in the root folder
+- keep the `Dockerfile`s in them individual container folders
+- `docker-compose.yaml` is in the root folder
 - create and use the simple script (`decoupled_build.cmd` in this case) to remove and restart building your compose app.
 
 ```bat
@@ -22,17 +21,31 @@ For starters organize your multi container projects like this one is:
 @REM first remove the previous 
 docker-compose down --rmi all
 @REM now build and start 
-@REM -d for daemon is optional
-docker-compose up -d
+@REM -d for daemon is optional arguments bellow
+docker-compose up
 ```
+- Often the literature mixes OS environment variables and Docker envrionment variables
+  - be sure to understand they are different 'things'
+  - in here I avoid the confusion by not using the OS env vars
+    - I use only `.env` files
+      - I create env vars in docker-compose and docker files
+      - I do strongly advise against mixing 
+      - ditto: only one `.env` file 
+      - used only by the one top level `docker-compose.yaml`
+      - env vars passed down from it to the dockerfiles 
+    - added complexity (confusion) comes from the fact `.env` files can be read from the source code
+    - simply do not do that, keep separate configurations in separate language specific configuration files 
+      - see the node js examples bellow
+- Be sure to read and understand the comments in the simple source files in this repo
+  - especially the ones about `.env` files
+- purpose of the source in here is to show the recomended organization of the multi container project organization and configurations
+  - not the "best" algorithms and such
 
-- Be sure to [read and understand this article](https://towardsdatascience.com/a-complete-guide-to-using-environment-variables-and-files-with-docker-and-compose-4549c21dc6af).
-- in here I use the `.env` files, you do not have to.
-- the single env file is in the root
+## Node JS Configurations
 
-## Configurations
+> NOTE: this is not environment variables 
 
-Example.Create a JSON file, such as config.json, and define your configuration variables and values:
+Example. Create a JSON file, such as `config.json`, and define your configuration variables and values:
 
 ```json
 {
@@ -58,19 +71,30 @@ console.log(config.database.host); // localhost
 console.log(config.server.port); // 3000
 ```
 
-That snippet also ilustrates the applicability of the NODE js to the JSON handling.  To do the same from any other language will require mnore or much more lines of code, to the same effect.
+That snippet also ilustrates the applicability of the NODE js to the JSON handling.  To do the same from any other language will require (much) more lines of code, to the same effect. Yes Python including. Nothing beats javascript when it comes to json.
 
+### Node js Configuration Modules
 
-### Configuration Modules
+One can create a node js configuration module that exports the configuration variables as an object. This allows JavaScript code to handle complex configurations as if they are objects and constants in the code.
 
-One can create a configuration module that exports the configuration variables as an object. This allows JavaScript code to handle complex configurations.
-
-For example, create a config.js file:
+For example, create a `config.js` file representing one node js module:
 
 ```js
+// config.js
 const databaseHost = 'localhost';
 const databasePort = 27017;
-const serverPort = process.env.PORT || 3000;
+
+// we use the env vars from the Dockerfile 
+// that has been given the .env defined vars
+// used by the docker-compose above it
+const serverPort = process.env.BACKEND_PORT ;
+// do not do this bellow, is is a quiet error anti pattern!
+// const serverPort = process.env.PORT || 3000;
+// instead signal the error and exit, as bellow
+if (!process.env.BACKEND_PORT) {
+    console.error('Error from config.js module: BACKEND_PORT environment variable is not defined?');
+    process.exit(1); // Exit the process with a non-zero status code
+}
 
 module.exports = {
   database: {
@@ -82,10 +106,17 @@ module.exports = {
   }
 };
 ```
-Now import this configuration module in your application:
+Now simply require this configuration module in your application:
 ```js
 const config = require('./config.js');
 console.log(config.database.host); // localhost
-console.log(config.server.port); // 3000 or the value of PORT environment variable
+console.log(config.server.port); // the value of BACKEND_PORT environment variable
 ```
-Again an good ilustration of applicability of NODE js to manage dynamic code. In JS object and JSON are (almost) the same thing. `config.js` can be easily rewritten as JSON, but this way we did a shortcut to instantly have objects and constants we need.
+
+> Importantly using that configuration mechanism, we are not confusing ourselves (and reviewers) by using the `.env` files, for other purposes, hidden in the source code.
+
+---
+
+***This project is W.I.P.***
+
+(c) dbj@dbj.org CC BY SA 4.0

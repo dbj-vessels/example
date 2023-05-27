@@ -1,3 +1,4 @@
+# (c) dbj.org CC BY SA 4.0
 # Use a base Node.js image
 FROM node:20-alpine
 
@@ -8,7 +9,9 @@ WORKDIR /app
 COPY package.json ./
 
 # Install dependencies
-RUN npm install dotenv
+# dotenv is required by node js for local .env files
+# separate and only for this container
+# RUN npm install dotenv
 RUN npm install express
 RUN npm install
 

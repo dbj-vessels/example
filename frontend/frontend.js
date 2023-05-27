@@ -1,8 +1,12 @@
-const http = require('http');
-const { config } = require('dotenv');
-const axios = require('axios');
+// (c) dbj@dbj.org CC BY SA 4.0
 
-config(); // load the .env
+// to use local .env file
+// in the Dockerfile: RUN npm install dotenv
+// const { config } = require('dotenv');
+// config(); // load the .env file
+
+const http = require('http');
+const axios = require('axios');
 
 const port = process.env.FRONTEND_PORT;
 const backendHostname = process.env.BACKEND_HOSTNAME;

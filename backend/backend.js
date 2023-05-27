@@ -1,12 +1,16 @@
+// (c) dbj@dbj.org CC BY SA 4.0
+
+// to use local .env file
+// in the Dockerfile: RUN npm install dotenv
+// const { config } = require('dotenv');
+// config(); // load the .env file
+
 const http = require('http');
-const { config } = require('dotenv');
 const express = require('express');
 const app = express();
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
-
-config(); // load the .env file
 
 const port = process.env.BACKEND_PORT; // Set the port for the backend container
 
