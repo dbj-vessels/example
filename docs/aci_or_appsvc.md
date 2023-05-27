@@ -1,13 +1,15 @@
-# Where t host your container on Azure
+# ACI or AppSVC
+
+For whatever reason Kubernetes is not your choice. Fine.
 
 <!-- Microsoft Azure platform offers a wide range of services ready to use during creation and deployment processes of our containerized applications happening in the cloud.
 
 Considering the multiplicity of available solutions – it is worth being aware of different hosting services (so-called Azure Compute Services, Hosting Services) details. This knowledge will greatly improve our ability to make a choice that matches our needs in terms of architectural decisions. -->
 
-Here are probably all Azure Hosting Services
+Here are probably all Azure Hosting Services:
 
 ![](media/azure_hosting_services.png)
-Note: some of the hosting svcs above are by now (2023Q2) legacy technologies.
+Note: some of the hosting svcs above are by now (2023Q2) unquestionable legacy technologies.
 
 <!-- ## Introduction to Microsoft Azure hosting services
 Hosting services are categorized into groups because of different hosting models.
@@ -30,7 +32,7 @@ Solutions from the IaaS group usually provide more control with simultaneous inc
 
 The final choice targeting production should be always preceded by an analysis of different Azure services capabilities versus main goal and scope of designed software.
 -->
-For whatever reason Kubernetes is nopt your choice.
+
 
 What are the features, pros, cons, as well as differences between two Azure Hosting PaaS services used during development and deployment processes of containerized applications:
 
@@ -99,6 +101,7 @@ Some of this service disadvantages are:
 Simplified diagram presenting deployment process of application using Azure App Service:
 
 ![](media/appsvc_hosting.webp)
+
 Web Application can be deployed as a container. Deployment across multiple nodes is optional. That  also means same web app or same container, deployed on multiple nodes.
 
 ## Create multiple apps on the same app service plan
@@ -130,13 +133,14 @@ Web Application can be deployed as a container. Deployment across multiple nodes
 
 ## So, which?
 
-After analyzing the key features of both presented services, one can get an impression that they have some common parts. However, they were built for other purposes.
+After analyzing the key features of both presented services, one can get an impression that they have some common parts. However, they were built for different purposes.
 
 Azure Container Instances is a lightweight hosting service allowing us to quickly spin up a new container with our application. Its scope is usually well-known, and functionalities are rather basic. ACI might be a good choice if plans on expanding and scaling the application do not play a huge role, due to its predictable use.
 
 For comparison – Azure App Service is some kind of an ecosystem providing suitable tools and elasticity. Similarly to ACI, it uses containerization for running applications but in addition focuses on the whole software development process, and will work perfectly for complex web applications that are growing constantly. Factors such as high availability, scalability or plenty of possible out of the box integrations are the top priority.
 
 ## Summary
+
 In conclusion, the choice of proper hosting service depends mostly on the complexity of the application, plans for its further development, security concerns and many other aspects. This is why detailed analysis of architectural situation is needed, and will certainly help us to find solution tailored to the problem.  
 
 ---
