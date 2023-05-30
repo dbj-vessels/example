@@ -1,6 +1,6 @@
-# Multi container project
+# How to organize, configure and deploy an Docker compose project
 
-> Purpose of this repo is to show the "proper" way of "doing things" for Docker compose app's.
+> Purpose of this repo is to show the "proper" way of "doing things" for Docker compose app's. Not to teach the "proper" coding.
 
 ## Repository organization
 
@@ -13,10 +13,10 @@ For starters organize your multi container projects with the root folder and sub
 ├───docs                // not a container
 └───frontend            // container
 ```
-- each container in a separate folder
+- each container code is in a separate folder
 - keep the `Dockerfile`s in them individual container folders
 - `docker-compose.yaml` is in the root folder
-- create and use the simple script (`decoupled_build.cmd` in this case) to remove and restart building your compose app.
+- create and use the simple script (`decoupled_build.cmd` in this case) to remove and restart deploying your compose app.
 
 ```bat
 @echo off
@@ -26,19 +26,30 @@ docker-compose down --rmi all
 @REM -d for daemon is optional arguments bellow
 docker-compose up
 ```
-## Docker compose apps and containers configuration
 
-- Often the literature mixes OS environment variables and Docker environment variables
+## .env files
+
+Usually deployment scripts and source code are externally configured.And there are .env files as an universally accepted solution. News to you? Please be sure to detour over here before proceeding:
+
+1. [Are .env files safe?](docs/env_files.md)
+2. [How are good teams handling .env files](https://github.com/acaloiaro/env-sample-sync)
+
+- In here we have very simple windows desktop docker compose app deployment
+- for the time being we will not separately deploy non prod and prod code
+
+## Docker compose apps and configuration
+
+- WARNING: Often the literature mixes OS environment variables and Docker environment variables
   - be sure to understand they are different 'things'
-  - in here I avoid the confusion by not using the OS env vars
-    - I use only `.env` files
-      - I create env vars in docker-compose and docker files
-      - I do strongly advise against mixing 
-      - ditto: only one `.env` file 
-      - used only by the one top level `docker-compose.yaml`
-      - env vars passed down from it to the docker files 
-    - added complexity (confusion) comes from the fact `.env` files can be read from the source code
-    - simply do not do that, keep separate configurations in separate language specific configuration files 
+- in here I avoid the confusion by not using the OS env vars
+- I use only `.env` files
+  - I create env vars in docker-compose and docker files
+  - I do strongly advise against mixing 
+    - ditto: only one `.env` file 
+    - used only by the one top level `docker-compose.yaml`
+    - env vars passed down from it to the docker files 
+  - added complexity (confusion) comes from the fact `.env` files can be read from the source code
+  - simply do not do that, keep separate configurations in separate language specific configuration files 
       - see the node js examples bellow
 - Be sure to read and understand the comments in the simple source files in this repo
   - especially the ones about `.env` files
@@ -47,7 +58,7 @@ docker-compose up
 
 ## Node JS Configurations
 
-> NOTE: this is not docker or OS environment variables 
+> NOTE: this is not docker or OS environment variables.  
 
 Example. Create a JSON file, such as `config.json`, and define your configuration variables and values:
 
