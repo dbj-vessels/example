@@ -1,5 +1,5 @@
 # (c) dbj@dbj.org CC BY SA 3.0
-# please be usre to not and understand we have one .env file
+# please be usre to note and understand we have one .env file
 # in this same folder
 # thus we keep all the env vars for all the container 
 # in that one .env file
@@ -15,6 +15,8 @@ services:
     environment:
       - API_KEY=${API_KEY}
     env_file:
+# keep in mind we can have any file we want here
+# the only requirement is for it to be in the .env file format
       - .env
   frontend:
     build:
