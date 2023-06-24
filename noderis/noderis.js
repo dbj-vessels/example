@@ -19,10 +19,11 @@ const app = express();
 app.use(express.json());
 
 
-const api_endpoint = '/api/endpoint';
+// const api_endpoint = '/api/endpoint';
+const api_endpoint = '/';
 
-// Endpoint for handling POST requests
-app.post(api_endpoint, (req, res) => {
+// Endpoint for handling GET requests
+app.get(api_endpoint, (req, res) => {
     try {
         const requestData = req.body;
 
@@ -30,52 +31,53 @@ app.post(api_endpoint, (req, res) => {
         console.log('Received JSON:', requestData);
 
         // Perform additional processing or handle the data as needed
-
+        // var ok_msg = ""
+        testRedis().then((result) => res.status(200).json({ 'status': 200, 'message': result }));
         // Send a success response
-        res.status(200).json({ message: 'Request successful' });
+        // res.status(200).json({ message: ok_msg });
     } catch (error) {
         // Handle errors
         console.error('Error:', error.message);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ 'error': 'Internal server error', 'message': error.message });
     }
 });
 
-
-const port = process.env.NODERIS_PORT; // Set the port for the noderis container
-
-console.log('========================================================================================');
-
-if (!process.env.NODERIS_PORT) {
-    console.error('Error: NODERIS_PORT environment variable is not defined in the .env file?');
-    process.exit(1); // Exit the process with a non-zero status code
-}
-
-// Use here the port for the noderis container
-app.listen(port, () => {
-    console.log(`NODERIS server is running on port ${port}, HTTP POST api endpoint is: ${api_endpoint}`);
-});
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// REDIS BASIC 
+/// REDIS BASIC TEST
 const redis = require("redis");
 
-// Environment variables for cache
-const redisHostName = process.env.REDIS_HOST_NAME;
-const redisPort = process.env.REDIS_PORT;
-const redisPassword = process.env.REDIS_ACCESS_KEY;
+// Environment 
+const noderisPort = process.env.NODERIS_PORT;
+if (!noderisPort) throw Error("NODERIS_PORT is empty")
 
-if (!redisHostName) throw Error("REDIS_HOST_NAME is empty")
-if (!redisPort) throw Error("REDIS_PORT is empty")
-if (!redisPassword) throw Error("REDIS_ACCESS_KEY is empty")
+
+// Use here the port for the noderis container
+app.listen(noderisPort, () => {
+    console.log(`\n\nNODERIS server is running on port ${noderisPort}, HTTP POST api endpoint is: ${api_endpoint}`);
+});
+
+
 
 async function testRedis() {
 
-    // Connection configuration
-    const cacheConnection = redis.createClient({
-        // rediss for TLS
-        url: `rediss://${redisHostName}:${redisPort}`,
-        password: redisPassword
-    });
+    // complex Connection configuration to a remote redis
+    // 
+    // const cacheConnection = redis.createClient({
+    //     // rediss for TLS
+    //     url: `rediss://${redisHostName}:${noderisPort}`,
+    //     password: redisPassword
+    // });
+    //
+    // but we are using local linux server inside a container
+    const cacheConnection = redis.createClient();
+    // The above code connects to localhost on port 6379. 
+    //
+    // To connect to a different host or port, use a connection string in the format 
+    // redis[s]://[[username][:password]@][host][:port][/db-number]:
+    // example
+    // createClient({
+    //     url: 'redis://alice:foobared@awesome.redis.server:6380'
+    // });
 
     // Connect to Redis
     await cacheConnection.connect();
