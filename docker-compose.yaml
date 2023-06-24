@@ -6,6 +6,7 @@
 version: '3'
 name: 'sampleapp'
 services:
+  ###################################
   environprinter:
     build:
       context: ./environprinter
@@ -15,9 +16,10 @@ services:
     environment:
       - API_KEY=${API_KEY}
     env_file:
-# keep in mind we can have any file we want here
-# the only requirement is for it to be in the .env file format
+      # keep in mind we can have any file we want here
+      # the only requirement is for it to be in the .env file format
       - .env
+  ###################################
   frontend:
     build:
       context: ./frontend
@@ -28,6 +30,7 @@ services:
       - backend
     env_file:
       - .env
+  ###################################
   backend:
     build:
       context: ./backend
@@ -36,3 +39,16 @@ services:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
     env_file:
       - .env
+  ###################################
+  noderis:
+    build:
+      context: ./noderis
+      dockerfile: Dockerfile
+    ports:
+      - "${NODERIS_PORT}:${NODERIS_PORT}"
+    env_file:
+      - .env
+
+# node how we re-use the same and one and only .env for the whole constelation in here
+# pay attention to the fact the whole contents of that one single .env file is known
+# and available to every container
