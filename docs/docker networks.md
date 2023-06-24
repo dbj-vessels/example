@@ -20,10 +20,12 @@ Overlay networks enable communication between containers running on different Do
 
 Provide more control and flexibility over container networking. You can create a user-defined network with custom settings, such as assigning a specific IP range or defining a network driver. User-defined networks are useful when you want to isolate containers or group them based on specific requirements.
 
-
-
+---
+<br/>
 
 &copy; by Dusan Jovanovic MSc Arch, TOGAF(R)  CC BY SA 3.0
+
+<br/>
 
 ---
 

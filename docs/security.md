@@ -3,7 +3,7 @@
 
 `.NET` `C#` specific: [Configure Windows Authentication in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/windowsauth?view=aspnetcore-7.0&tabs=visual-studio)
 
-Surprisingly enough this is also about code security: [When should I use Lazy<T>](https://stackoverflow.com/questions/6847721/when-should-i-use-lazyt)?
+Surprisingly enough of this is about code security: [When should I use Lazy<T>](https://stackoverflow.com/questions/6847721/when-should-i-use-lazyt)?
 
 > Replaces: `get { if (foo == null) foo = new Foo(); return foo; }`. 
 >
