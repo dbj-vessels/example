@@ -49,6 +49,6 @@ services:
     env_file:
       - .env
 
-# node how we re-use the same and one and only .env for the whole constelation in here
+# note how we re-use the same and one and only .env for the whole constelation in here
 # pay attention to the fact the whole contents of that one single .env file is known
 # and available to every container

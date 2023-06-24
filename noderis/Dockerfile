@@ -26,6 +26,19 @@ RUN npm install express
 RUN npm install redis
 RUN npm install
 
+# WARNING Memory overcommit must be enabled! 
+# Without it, a background save or replication may fail under low memory condition. 
+# To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot 
+# or 
+# run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+# RUN sysctl vm.overcommit_memory=1
+#  => ERROR [10/11] RUN sysctl vm.overcommit_memory=1                                                                                                   0.3s 
+# ------
+#  > [10/11] RUN sysctl vm.overcommit_memory=1:
+# #14 0.284 sysctl: error setting key 'vm.overcommit_memory': Read-only file system
+# ------
+# executor failed running [/bin/sh -c sysctl vm.overcommit_memory=1]: exit code: 1
+
 # If you are building your code for production
 # RUN npm ci --omit=dev
 
