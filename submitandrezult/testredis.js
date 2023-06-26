@@ -1,6 +1,11 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// REDIS BASIC TEST
 const redis = require("redis");
+const { timestamp } = require("./timestamp");
 
-exports.add = async function test() {
+
+
+async function test() {
 
     // complex Connection configuration to a remote redis
     // 
@@ -48,7 +53,19 @@ exports.add = async function test() {
     // Disconnect
     cacheConnection.disconnect()
 
-    return "testredis.test() Done"
+    return `[${timestamp.timestamp()}] testredis.test() Done OK`
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// can do it immediately here
+/// note: this starts as soon as container loads and starts
+test().then(
+    (result) =>
+        // log the test function return
+        console.log(result))
+    // or catch and log anything thrown in there
+    .catch(ex => console.log(ex)
+    );
 
-// test().then((result) => console.log(result)).catch(ex => console.log(ex));
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Exporting the async function
+module.exports = { test };
