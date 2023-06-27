@@ -48,6 +48,15 @@ services:
       - "${NODERIS_PORT}:${NODERIS_PORT}"
     env_file:
       - .env
+  ###################################
+  cluster:
+    build:
+      context: ./cluster
+      dockerfile: Dockerfile
+    ports:
+      - "${CLUSTER_SLEEP}:${CLUSTER_SLEEP}"
+    env_file:
+      - .env
 
 # note how we re-use the same and one and only .env for the whole constelation in here
 # pay attention to the fact the whole contents of that one single .env file is known
