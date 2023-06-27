@@ -1,0 +1,10 @@
+{
+    "name": "cluster-project",
+    "version": "1.0.0",
+    "description": "NODE JS CLUSTER  Hello world",
+    "author": "(c) dbj@dbj.org CC BY SA 4.0)",
+    "main": "cluster.js",
+    "scripts": {
+        "start": "node cluster.js"
+    }
+}

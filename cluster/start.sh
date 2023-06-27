@@ -4,4 +4,4 @@
 nohup redis-server &
 
 # start the node app
-node submitandrezult.js
+node noderis.js

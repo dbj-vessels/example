@@ -24,6 +24,7 @@ RUN apk --update add redis
 # RUN npm install dotenv
 RUN npm install express
 RUN npm install redis
+# RUN npm install bull
 RUN npm install
 
 # WARNING Memory overcommit must be enabled! 
