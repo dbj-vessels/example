@@ -6,7 +6,7 @@
 clear
 
 # Of course you realise this will provoke rebuild all each time you start this script
-# docker-compose down --rmi all
+docker-compose down --rmi all
 
 # for daemon add -d
 docker-compose up
