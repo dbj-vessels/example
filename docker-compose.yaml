@@ -1,6 +1,6 @@
 # (c) dbj@dbj.org CC BY SA 3.0
-# please be usre to note and understand we have one .env file
-# in this same folder
+# please be sure to note and understand we have one .env file
+# In this same folder
 # thus we keep all the env vars for all the container 
 # in that one .env file
 version: '3'
