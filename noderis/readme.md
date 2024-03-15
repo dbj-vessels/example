@@ -1,9 +1,9 @@
 <!-- # This is a [micro-monolith](https://dbj.org/micro-monolith/)&trade; container -->
-# This is a multi process container
+# This is a localhost modules container
 
-It constains public web api and one decoupled module. Thus, two processes.
+It constains public web api and one decoupled module, implemented as Linux service. Thus, two processes.
 
-It has a node js front end app, using the redis inside the same container running as the linux service.
+It has a node js front end app, using the redis inside the same container running as the linux service. Linux service is a background process.
 
  Running on localhost:6379, completely encapsulated, fast and safe.
 
@@ -11,4 +11,4 @@ It has a node js front end app, using the redis inside the same container runnin
 
 For Ubuntu aficionados: https://en.ubuntu.perlzemi.com/blog/20200225174004.html
 
-ps: 2023Q4 all containers by default are Linux containers.
+ps: 2023Q4 all containers by default are Linux containers. 0.01% are not :)
