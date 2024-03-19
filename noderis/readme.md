@@ -1,9 +1,9 @@
 <!-- # This is a [micro-monolith](https://dbj.org/micro-monolith/)&trade; container -->
 # This is a localhost modules container
 
-> localhost modules container is **not** a multi-services container
-> localhost container implements one microservice, by using localhost modules internally
-> localhost mdules greatly improve resilience, and deployability and enhance resilience to change
+> 1. localhost modules container is **not** a multi-services container
+> 2. localhost container implements one microservice, by using localhost modules internally
+> 3. localhost mdules greatly improve resilience, and deployability and enhance resilience to change
 
 This one contains public web API and one decoupled module, implemented as a Linux service. Thus, there are two processes.
 
