@@ -11,7 +11,7 @@ It has a node js front-end app, using Redis inside the same container running as
 
  Running on localhost:6379, completely encapsulated, fast and safe.
 
-(For Ubuntu aficionados: https://en.ubuntu.perlzemi.com/blog/20200225174004.html)
+(Redis server start / stop / restart / status check: https://en.ubuntu.perlzemi.com/blog/20200225174004.html)
 
 PS: 2023Q4 all containers by default are Linux containers. 0.01% are not :)
 
