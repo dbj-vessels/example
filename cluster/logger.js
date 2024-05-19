@@ -16,7 +16,7 @@ const logger = winston.createLogger({
 });
 
 module.exports = logger;
-
+// usage:
 // const logger = require('./logger');
 // logger.info('This is an informational message');
 // logger.warn('This is a warning message');

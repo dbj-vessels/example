@@ -15,17 +15,28 @@ const cluster = require('cluster');
 const os = require('os');
 const sleep = require('./sleep');
 const logger = require('./logger');
-// logger.info('This is an informational message');
-// logger.warn('This is a warning message');
-// logger.error('This is an error message');
+
 
 async function run() {
     if (cluster.isMaster) {
-        // This is the master process
+        // This is the master process **********************************************************
+        logger.info('                                                                 ');
+        logger.info('                                                                 ');
+        logger.info('This is CLUSTER MASTER               ****************************');
+        logger.info(`Process ID: ${process.pid}           ****************************`);
+        
+        logger.info('This is an informational log message ****************************');
+        logger.warn('This is a warning log message ***********************************');
+        logger.error('This is an error log message ***********************************');
+        logger.info('                                                                 ');
+        logger.info('                                                                 ');
 
         // Get the number of CPU cores
         const numCPUs = os.cpus().length;
         logger.info(`Number of cores found: ${numCPUs}`);
+        logger.info(`Will start one worker per core.`);
+        logger.info('                                                                 ');
+        logger.info('                                                                 ');
 
         // Fork worker processes
         for (let i = 0; i < numCPUs; i++) {
@@ -35,6 +46,7 @@ async function run() {
         // Listen for messages from the worker process
         cluster.on('message', (worker, message) => {
             logger.info(`Received message from worker ${worker.process.pid}: ${message}`);
+            logger.info('                                                                 ');
         });
 
         // Listen for the exit event of worker processes
@@ -47,7 +59,7 @@ async function run() {
 
         // Handle the termination signal on the whole cluster
         process.on('SIGINT', () => {
-            logger.warn('SIGINT rceived. Terminating the cluster...');
+            logger.warn('SIGINT received. Terminating the cluster...');
             // Stop the worker processes
             // Send 'exit' message to each worker process
             workers.forEach(worker => {
@@ -60,12 +72,12 @@ async function run() {
         });
 
     } else {
+        // This is a worker process ******************************************************************
+        // Start your worker logic here
         // Environment 
         const cluster_sleep = process.env.CLUSTER_SLEEP;
         if (!cluster_sleep) throw Error("CLUSTER_SLEEP is empty")
         const sleeping_time =
-            // This is a worker process
-            // Start your application logic here
             logger.info(`Worker PID: [${process.pid}] started`);
         await sleep(cluster_sleep);
 

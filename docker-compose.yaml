@@ -4,7 +4,7 @@
 # thus we keep all the env vars for all the container 
 # in that one .env file
 version: '3'
-name: 'sampleapp'
+name: 'dbj'
 services:
   ###################################
   environprinter:
