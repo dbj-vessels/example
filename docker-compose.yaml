@@ -7,14 +7,23 @@ version: '3'
 name: 'dbj'
 services:
   ###################################
-  environprinter:
+  cslog_0:
     build:
-      context: ./environprinter
+      context: ./cslog_0
       dockerfile: Dockerfile
     labels:
       environment: ENVIRONMENT=${ENVIRONMENT}
     environment:
       - API_KEY=${API_KEY}
+    env_file:
+      # keep in mind we can have any file we want here
+      # the only requirement is for it to be in the .env file format
+      - .env
+  ###################################
+  environprinter:
+    build:
+      context: ./environprinter
+      dockerfile: Dockerfile
     env_file:
       # keep in mind we can have any file we want here
       # the only requirement is for it to be in the .env file format
